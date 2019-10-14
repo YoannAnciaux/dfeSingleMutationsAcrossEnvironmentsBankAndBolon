@@ -1,0 +1,13 @@
+Package: dfeSingleMutationsAcrossEnvironmentsBankAndBolon
+Type: Package
+Title: Compendium of the results for the inference of FGM parameters from 115 single mutations.
+Version: 0.0.0.9000
+Authors@R: person("Yoann", "Anciaux", email = "yoann.anciaux@birc.au.dk",
+  role = c("aut", "cre"))
+Description: This package contains : All the scripts used to produce simulations. All the simulations used for the inference. All the scripts for the inference. A summary of all these results.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    inferenceFitnessLandscape
+RoxygenNote: 6.1.1
