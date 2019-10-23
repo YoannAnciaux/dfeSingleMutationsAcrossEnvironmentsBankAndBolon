@@ -11,3 +11,7 @@ LazyData: true
 Imports: 
     inferenceFitnessLandscape
 RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

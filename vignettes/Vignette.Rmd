@@ -1,0 +1,33 @@
+---
+title: "Vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dfeSingleMutationsAcrossEnvironmentsBankAndBolon)
+```
+
+```{r Load_data}
+data("new_empirical_fl")
+data("new_fgmrmut2env_parameter")
+data("new_fgmrmut2env_simulation")
+data("reference_inferred_parameters")
+
+abc(target  = new_empirical_fl[2:nrow(new_empirical_fl), ncol(new_empirical_fl)],
+    param   = new_fgmrmut2env_parameter,
+    sumstat = new_fgmrmut2env_simulation,
+    tol     = c(0.1, 0.01),
+    method  = "rejection")
+```
+

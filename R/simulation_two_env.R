@@ -1,6 +1,8 @@
 # library(inferenceFitnessLandscape)
 # library(here)
 # library(abc)
+# library(readr)
+# library(dplyr)
 #
 # #### Parameters for simulations ####
 # fitness_wt_new <- 0
@@ -27,21 +29,22 @@
 #                  alpha_ref = 1/2, Q_ref = 2, m_ref = 2)
 # save(fun_args, file = here("inst", "simulation", "115_mutations_fgmrmut2env_10e4_reference_environment.Rda"))
 #
-# #### Fitness landscape new environement ####
+# #### Fitness landscape ####
 # lambda_I_n <- 0.1 * diag(2)
 # A = MASS::mvrnorm(n = 115, mu = numeric(2), Sigma = lambda_I_n)
 # rmut_fit_ref <- ptof_fgm_iso(A + matrix(pheno_wt_new, 115, 2, byrow = T),
-#                          1, 1/2, 2)
+#                              1, 1/2, 2)
 # empirical_fl_ref <- cbind(rbind(numeric(115), diag(nrow = 115, ncol = 115)), c(0, rmut_fit_ref))
-# write.table(x = empirical_fl_ref,
-#             file = here("inst", "raw_data", "fake_115_mutations_environment_reference.csv"),
-#             col.names = TRUE, sep = "\t", row.names = F)
+# empirical_fl_ref <- as_tibble(empirical_fl_ref)
+# write_csv(x = empirical_fl_ref,
+#           path = "data-raw/fake_empirical_fl_environment_reference.csv")
+# test <- read_csv(file = "data-raw/fake_empirical_fl_environment_reference.csv")
 # rmut_fit_new <- ptof_fgm_iso(A + matrix(pheno_wt_new, 115, 2, byrow = T),
-#                          1, 1/2, 2, pheno_opt = c(2^(1/2)* cos(pi/2), 2^(1/2)* sin(pi/2)))
+#                              1, 1/2, 2, pheno_opt = c(2^(1/2)* cos(pi/2), 2^(1/2)* sin(pi/2)))
 # empirical_fl_new <- cbind(rbind(numeric(115), diag(nrow = 115, ncol = 115)), c(0, rmut_fit_new))
-# write.table(x = empirical_fl_ref,
-#             file = here("inst", "raw_data", "fake_115_mutations_environment_new.csv"),
-#             col.names = T, sep = "\t", row.names = F)
+# empirical_fl_new <- tibble(empirical_fl_new)
+# write_csv(x = empirical_fl_ref,
+#           path = "data-raw/fake_empirical_fl_environment_new.csv")
 #
 # #### Simulations ####
 # sim <- simulate_fl(parameter = matrix_param, simulation_model = "fgmrmut2env",
@@ -58,8 +61,8 @@
 #
 # abc_out <- list()
 # abc_out$rejection <- abc(target = target, param = input$parameter,
-#                sumstat = input$simulation, tol = 0.01,
-#                method ="rejection")
+#                          sumstat = input$simulation, tol = 0.01,
+#                          method ="rejection")
 # abc_out$loclinear <- abc(target = target, param = input$parameter,
 #                          sumstat = input$simulation, tol = 0.01,
 #                          method = "loclinear")
@@ -67,8 +70,8 @@
 #                          sumstat = input$simulation, tol = 0.01,
 #                          method = "neuralnet")
 # abc_out$ridge <- abc(target = target, param = input$parameter,
-#                          sumstat = input$simulation, tol = 0.01,
-#                          method = "ridge")
+#                      sumstat = input$simulation, tol = 0.01,
+#                      method = "ridge")
 #
 # summary(abc_out$rejection)
 # summary(abc_out$loclinear)
@@ -82,8 +85,8 @@
 #
 # cv_out <- list()
 # cv_out$rejection <- cv4abc(param = input$parameter,
-#        sumstat = input$simulation, tols = 0.01,
-#        nval = 10, abc.out = abc_out$rejection)
+#                            sumstat = input$simulation, tols = 0.01,
+#                            nval = 10, abc.out = abc_out$rejection)
 #
 # index <- as.vector(sapply(names(input),
 #                           FUN = function(n) {rep(n, nrow(input[[n]]$parameter))}))
