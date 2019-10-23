@@ -2,6 +2,25 @@ library(inferenceFitnessLandscape)
 library(usethis)
 
 #### One environment (reference environment) ####
+data("reference_fgmrmut_parameter")
+data("full_raw_empirical_fl")
+reference_empirical_fl <- full_raw_empirical_fl$std_rep1
+remove(full_raw_empirical_fl)
+temp_sim <- simulate_fl(parameter        = reference_fgmrmut_parameter,
+                        simulation_model = "fgmrmut",
+                        empirical_fl     = reference_empirical_fl,
+                        ncore            = 7)
+
+reference_fgmrmut_simulation <- temp_sim$simulation[, -1] #removes wild type which is not useful for the inference
+
+write.table(x = reference_fgmrmut_simulation,
+            file = "data-raw/2-simulation/reference_fgmrmut_simulation.csv",
+            col.names = TRUE)
+
+use_data(reference_fgmrmut_simulation, overwrite = TRUE)
+
+
+#### One environment (reference environment) ####
 data("reference_fgmrmut_parameters")
 data("reference_empirical_fl")
 temp_sim <- simulate_fl(parameter        = reference_fgmrmut_parameters,

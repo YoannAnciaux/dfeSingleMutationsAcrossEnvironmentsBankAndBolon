@@ -8,10 +8,11 @@ rgeom_trunc <- function(n, a, b, prob) {rtrunc(n, spec = "geom", a, b, prob)}
 rexp_trunc <- function(n, a, b, rate) {rtrunc(n, spec = "exp", a, b, rate)}
 
 #### Generates parameters environment reference ####
-data("reference_empirical_fl")
+data("full_raw_empirical_fl")
+reference_empirical_fl <- full_raw_empirical_fl$std_rep1
 fitness_wt_ref  <- reference_empirical_fl[1, dim(reference_empirical_fl)[2]]
 
-nb_simul    <- 10^6
+nb_simul    <- 10^3
 
 pn          <- 1/5
 rlambda     <- 1/0.2
@@ -31,7 +32,7 @@ reference_fgmrmut_parameter <- cbind(n = n_prior,
                                     m = n_prior)
 
 write.table(x = reference_fgmrmut_parameter,
-            file = "data-raw/reference_fgmrmut_parameter.csv",
+            file = "data-raw/2-simulation/reference_fgmrmut_parameter.csv",
             col.names = TRUE)
 
 use_data(reference_fgmrmut_parameter, overwrite = TRUE)

@@ -1,4 +1,5 @@
 library(tidyverse)
+library(devtools)
 
 #### Useful functions ####
 raw2fl <- function(data, data_name) {
@@ -16,13 +17,14 @@ raw2fl <- function(data, data_name) {
   colnames(empirical_fl) <- c(names_mutants, "fitness")
   # writes each fl to a csv file
   write.table(x = empirical_fl,
-              file = paste0("data-raw/", data_name, "_empirical_fl.csv"),
+              file = paste0("data-raw/1-empirical_fl/", data_name, "_empirical_fl.csv"),
               row.names = FALSE, col.names = TRUE)
   return(empirical_fl)
 }
 
 #### Full raw empirical fl data ####
-tbl <- read.csv("data-raw/joint_df.csv")
+# Reads the raw data and extract the variable of interest
+tbl <- read.csv("data-raw/1-empirical_fl/raw_data_DFE.csv")
 tbl <- tbl %>%
   unite(Position_AA, c(Position, AA)) %>%
   transmute(Position_AA,
@@ -32,30 +34,17 @@ tbl <- tbl %>%
 list_tbl <-  tbl %>%
   group_split()
 names_tbl <- group_keys(tbl)$Treatment
-names(list_tbl) <- names_tbl
 
-test <- raw2fl(list_tbl[[names_tbl[1]]], names_tbl[1])
-
+# Creates a list of empirical_fl per treatment
 full_raw_empirical_fl <- sapply(names_tbl,
                                 FUN = function(data_name) {
                                   raw2fl(list_tbl[[data_name]], data_name)
                                 },
-                                simplify = F,
-                                USE.NAMES = T)
-
-
-
-
+                                simplify = F)
+names(full_raw_empirical_fl) <- names_tbl
+# Saves the data as lazydata (easy loading)
 use_data(full_raw_empirical_fl, overwrite = TRUE)
 
-#### Separated empirical fl data ####
-data(full_raw_empirical_fl)
-d = names_tbl[1]
-
-
-
-do.call(use_data, list(get(name_fl), overwrite = TRUE))
-use_data(get(name_fl), overwrite = TRUE)
 
 #### Description data ####
 # library(tidyverse)

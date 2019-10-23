@@ -4,7 +4,7 @@ library(abc)
 
 #### Parameters ####
 nval <- 100
-tols <- c(10^(-3), 10^(-4))
+tols <- c(10^(-2))
 method <- c("rejection", "loclinear", "neuralnet", "ridge")
 
 #### One environment CV ####
